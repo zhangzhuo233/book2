@@ -19,7 +19,7 @@ ico名称改成“pm2.5\_dp”
 /*main.c*/
 +#include "form_pm25.h"
 +case MS_PM25:
-+    TestPM25();                        /*pm2.5*/
++    TestPM25();                        /*pm2.5模块*/
 +    ucStatus = MS_MAIN_MENU;
 +break;
 ```
