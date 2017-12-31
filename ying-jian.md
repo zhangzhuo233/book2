@@ -13,9 +13,16 @@ ico名称改成“pm2.5\_dp”
 
 # 3.app print
 
-3.1printlogo函数添加"新增pm2.5模块"
+3.1主程序采用 状态机实现程序功能切换+pm2.5模块
 
-3.2
+```cpp
+/*main.c*/
++#include "form_pm25.h"
++case MS_PM25:
+TestPM25();						/*pm2.5*/
+ucStatus = MS_MAIN_MENU;
+break;
+```
 
 
 
