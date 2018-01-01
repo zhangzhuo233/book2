@@ -84,28 +84,28 @@ void GP2Y_GPIOInit(void)
     GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;                              //无上拉下拉
     GPIO_Init(GPIOA, &GPIO_InitStructure);        
     GPIO_ResetBits(GPIOA, GPIO_Pin_5);                                         
-            
+
 }
 
 uint32_t GP2Y_GetADCValue(void)
 {
-     
+
     static uint16_t buf[SAMP_COUNT];
     static uint8_t write;
     uint32_t sum;
     uint8_t i;
-   
-   
+
+
     GPIO_ResetBits(GPIOA, GPIO_Pin_5);
     //Delay_ms(28);
 
     buf[write] =  ADC_GetConversionValue(ADC1);
-       
+
     if (++write >= SAMP_COUNT)
     {
             write = 0;
     }
-		sum = 0;
+        sum = 0;
     for (i = 0; i < SAMP_COUNT; i++)
     {
                 sum += buf[i];
@@ -125,148 +125,148 @@ uint32_t GP2Y_GetADCValue(void)
 
 /*
 *********************************************************************************************************
-*	函 数 名: TestPM25
-*	功能说明: 展示当前pm2.5示数&建议
-*	形    参: 无
-*	返 回 值: 无
+*    函 数 名: TestPM25
+*    功能说明: 展示当前pm2.5示数&建议
+*    形    参: 无
+*    返 回 值: 无
 *********************************************************************************************************
 */
 void TestPM25(void)
 {
-		/***********************************************************************************
-		*输出pm2.5示数
-		*实验效果：
-		*在LCD屏幕上打印PM2.5的数值
-		*打开串口可以看到PM2.5的值
-		************************************************************************************/
-		uint32_t pm;
-		
-		uint8_t ucKeyCode;		/* 按键代码 */
-		uint8_t ucTouch;		/* 触摸事件 */
-		uint8_t fRefresh;		/* 刷屏请求标志,1表示需要刷新 */
-		FONT_T tFont, tFontBtn;	/* 定义一个字体结构体变量，用于设置字体参数 */
-		char buf[128];
-		uint16_t x, y;
-		uint16_t usLineCap = 18;
+        /***********************************************************************************
+        *输出pm2.5示数
+        *实验效果：
+        *在LCD屏幕上打印PM2.5的数值
+        *打开串口可以看到PM2.5的值
+        ************************************************************************************/
+        uint32_t pm;
 
-		int16_t tpX, tpY;
-		BUTTON_T tBtn;
+        uint8_t ucKeyCode;        /* 按键代码 */
+        uint8_t ucTouch;        /* 触摸事件 */
+        uint8_t fRefresh;        /* 刷屏请求标志,1表示需要刷新 */
+        FONT_T tFont, tFontBtn;    /* 定义一个字体结构体变量，用于设置字体参数 */
+        char buf[128];
+        uint16_t x, y;
+        uint16_t usLineCap = 18;
 
-		LCD_ClrScr(CL_BLUE);  	/* 清屏，背景蓝色 */
-	
-	/* 设置字体参数 */
-	{
-		tFont.FontCode = FC_ST_16;	/* 字体代码 16点阵 */
-		tFont.FrontColor = CL_WHITE;	/* 字体颜色 */
-		tFont.BackColor = CL_BLUE;	/* 文字背景颜色 */
-		tFont.Space = 0;				/* 文字间距，单位 = 像素 */
+        int16_t tpX, tpY;
+        BUTTON_T tBtn;
 
-		/* 按钮字体 */
-		tFontBtn.FontCode = FC_ST_16;
-		tFontBtn.BackColor = CL_MASK;	/* 透明色 */
-		tFontBtn.FrontColor = CL_BLACK;
-		tFontBtn.Space = 0;
-	}
-	
-	x = 5;
-	y = 3;
-	LCD_DispStr(x, y, "/*** PM2.5界面  made by zhangzhuo ***/", &tFont);			/* 在(8,3)坐标处显示一串汉字 */
-	y += usLineCap;
-	
-	
-	fRefresh = 1;	/* 1表示需要刷新LCD */
-	while (1)
-	{
-		bsp_Idle();
-		
-		if (fRefresh)
-		{
-			fRefresh = 0;
+        LCD_ClrScr(CL_BLUE);      /* 清屏，背景蓝色 */
 
-			/* 显示按钮 */
-			{
-				tBtn.Font = &tFontBtn;
+    /* 设置字体参数 */
+    {
+        tFont.FontCode = FC_ST_16;    /* 字体代码 16点阵 */
+        tFont.FrontColor = CL_WHITE;    /* 字体颜色 */
+        tFont.BackColor = CL_BLUE;    /* 文字背景颜色 */
+        tFont.Space = 0;                /* 文字间距，单位 = 像素 */
 
-				tBtn.Left = BUTTON_RET_X;
-				tBtn.Top = BUTTON_RET_Y;
-				tBtn.Height = BUTTON_RET_H;
-				tBtn.Width = BUTTON_RET_W;
-				tBtn.Focus = 0;	/* 失去焦点 */
-				tBtn.pCaption = "返回";
-				LCD_DrawButton(&tBtn);
-			}
-		}
+        /* 按钮字体 */
+        tFontBtn.FontCode = FC_ST_16;
+        tFontBtn.BackColor = CL_MASK;    /* 透明色 */
+        tFontBtn.FrontColor = CL_BLACK;
+        tFontBtn.Space = 0;
+    }
 
-		ucTouch = TOUCH_GetKey(&tpX, &tpY);	/* 读取触摸事件 */
-		if (ucTouch != TOUCH_NONE)
-		{
-			switch (ucTouch)
-			{
-				case TOUCH_DOWN:		/* 触笔按下事件 */
-					if (TOUCH_InRect(tpX, tpY, BUTTON_RET_X, BUTTON_RET_Y, BUTTON_RET_H, BUTTON_RET_W))
-					{
-						tBtn.Font = &tFontBtn;
+    x = 5;
+    y = 3;
+    LCD_DispStr(x, y, "/*** PM2.5界面  made by zhangzhuo ***/", &tFont);            /* 在(8,3)坐标处显示一串汉字 */
+    y += usLineCap;
 
-						tBtn.Left = BUTTON_RET_X;
-						tBtn.Top = BUTTON_RET_Y;
-						tBtn.Height = BUTTON_RET_H;
-						tBtn.Width = BUTTON_RET_W;
-						tBtn.Focus = 1;	/* 焦点 */
-						tBtn.pCaption = "返回";
-						LCD_DrawButton(&tBtn);
-					}
-					break;
 
-				case TOUCH_RELEASE:		/* 触笔释放事件 */
-					if (TOUCH_InRect(tpX, tpY, BUTTON_RET_X, BUTTON_RET_Y, BUTTON_RET_H, BUTTON_RET_W))
-					{
-						tBtn.Font = &tFontBtn;
+    fRefresh = 1;    /* 1表示需要刷新LCD */
+    while (1)
+    {
+        bsp_Idle();
 
-						tBtn.Left = BUTTON_RET_X;
-						tBtn.Top = BUTTON_RET_Y;
-						tBtn.Height = BUTTON_RET_H;
-						tBtn.Width = BUTTON_RET_W;
-						tBtn.Focus = 1;	/* 焦点 */
-						tBtn.pCaption = "返回";
-						LCD_DrawButton(&tBtn);
+        if (fRefresh)
+        {
+            fRefresh = 0;
 
-						return;		/* 返回 */
-					}
-					else	/* 按钮失去焦点 */
-					{
-						tBtn.Font = &tFontBtn;
+            /* 显示按钮 */
+            {
+                tBtn.Font = &tFontBtn;
 
-						tBtn.Left = BUTTON_RET_X;
-						tBtn.Top = BUTTON_RET_Y;
-						tBtn.Height = BUTTON_RET_H;
-						tBtn.Width = BUTTON_RET_W;
-						tBtn.Focus = 0;	/* 焦点 */
-						tBtn.pCaption = "返回";
-						LCD_DrawButton(&tBtn);
+                tBtn.Left = BUTTON_RET_X;
+                tBtn.Top = BUTTON_RET_Y;
+                tBtn.Height = BUTTON_RET_H;
+                tBtn.Width = BUTTON_RET_W;
+                tBtn.Focus = 0;    /* 失去焦点 */
+                tBtn.pCaption = "返回";
+                LCD_DrawButton(&tBtn);
+            }
+        }
 
-					}
-			}
-		}
+        ucTouch = TOUCH_GetKey(&tpX, &tpY);    /* 读取触摸事件 */
+        if (ucTouch != TOUCH_NONE)
+        {
+            switch (ucTouch)
+            {
+                case TOUCH_DOWN:        /* 触笔按下事件 */
+                    if (TOUCH_InRect(tpX, tpY, BUTTON_RET_X, BUTTON_RET_Y, BUTTON_RET_H, BUTTON_RET_W))
+                    {
+                        tBtn.Font = &tFontBtn;
 
-		ucKeyCode = bsp_GetKey();	/* 读取键值, 无键按下时返回 KEY_NONE = 0 */
-		if (ucKeyCode != KEY_NONE)
-		{
-			/* 有键按下 */
-			switch (ucKeyCode)
-			{
-				case JOY_DOWN_OK:		/* 摇杆OK键 */
-					break;
+                        tBtn.Left = BUTTON_RET_X;
+                        tBtn.Top = BUTTON_RET_Y;
+                        tBtn.Height = BUTTON_RET_H;
+                        tBtn.Width = BUTTON_RET_W;
+                        tBtn.Focus = 1;    /* 焦点 */
+                        tBtn.pCaption = "返回";
+                        LCD_DrawButton(&tBtn);
+                    }
+                    break;
 
-				default:
-					break;
-			}
-		}
-		/*打印到串口，LCD显示*/
-		pm = GP2Y_GetADCValue();
-		sprintf(buf, " pm2.5 = %08X", pm);
-		printf("%s\r\n", buf);
-		LCD_DispStr(x, y, buf, &tFont);
-	}
+                case TOUCH_RELEASE:        /* 触笔释放事件 */
+                    if (TOUCH_InRect(tpX, tpY, BUTTON_RET_X, BUTTON_RET_Y, BUTTON_RET_H, BUTTON_RET_W))
+                    {
+                        tBtn.Font = &tFontBtn;
+
+                        tBtn.Left = BUTTON_RET_X;
+                        tBtn.Top = BUTTON_RET_Y;
+                        tBtn.Height = BUTTON_RET_H;
+                        tBtn.Width = BUTTON_RET_W;
+                        tBtn.Focus = 1;    /* 焦点 */
+                        tBtn.pCaption = "返回";
+                        LCD_DrawButton(&tBtn);
+
+                        return;        /* 返回 */
+                    }
+                    else    /* 按钮失去焦点 */
+                    {
+                        tBtn.Font = &tFontBtn;
+
+                        tBtn.Left = BUTTON_RET_X;
+                        tBtn.Top = BUTTON_RET_Y;
+                        tBtn.Height = BUTTON_RET_H;
+                        tBtn.Width = BUTTON_RET_W;
+                        tBtn.Focus = 0;    /* 焦点 */
+                        tBtn.pCaption = "返回";
+                        LCD_DrawButton(&tBtn);
+
+                    }
+            }
+        }
+
+        ucKeyCode = bsp_GetKey();    /* 读取键值, 无键按下时返回 KEY_NONE = 0 */
+        if (ucKeyCode != KEY_NONE)
+        {
+            /* 有键按下 */
+            switch (ucKeyCode)
+            {
+                case JOY_DOWN_OK:        /* 摇杆OK键 */
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        /*打印到串口，LCD显示*/
+        pm = GP2Y_GetADCValue();
+        sprintf(buf, " pm2.5 = %08X", pm);
+        printf("%s\r\n", buf);
+        LCD_DispStr(x, y, buf, &tFont);
+    }
 }
 ```
 
