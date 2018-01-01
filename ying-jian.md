@@ -274,39 +274,39 @@ void TestPM25(void)
 
 ```c
 if(pm <= 75)
-		{
-			sprintf(buf, " 空气very good");
-			printf("%s\r\n", buf);
-		}
-		else if(pm>75 && pm<=150)
-		{
-			sprintf(buf, " 空气look good");
-			printf("%s\r\n", buf);
-		}
-		else if(pm>150 && pm<=300)
-		{
-			sprintf(buf, " 空气good");
-			printf("%s\r\n", buf);
-		}
-		else if(pm>300 && pm<=1050)
-		{
-			sprintf(buf, " 空气just so so");
-			printf("%s\r\n", buf);
-		}
-		else if(pm>1050 && pm <=3000)
-		{
-			sprintf(buf, " 空气bad");
-			printf("%s\r\n", buf);
-		}
-		else
-		{
-			sprintf(buf, " 空气very bad");
-			printf("%s\r\n", buf);
-		}
-		y += usLineCap;
-		LCD_DispStr(x, y, buf, &tFont);
-		y -= usLineCap;
-	}
+        {
+            sprintf(buf, " 空气very good");
+            printf("%s\r\n", buf);
+        }
+        else if(pm>75 && pm<=150)
+        {
+            sprintf(buf, " 空气look good");
+            printf("%s\r\n", buf);
+        }
+        else if(pm>150 && pm<=300)
+        {
+            sprintf(buf, " 空气good");
+            printf("%s\r\n", buf);
+        }
+        else if(pm>300 && pm<=1050)
+        {
+            sprintf(buf, " 空气just so so");
+            printf("%s\r\n", buf);
+        }
+        else if(pm>1050 && pm <=3000)
+        {
+            sprintf(buf, " 空气bad");
+            printf("%s\r\n", buf);
+        }
+        else
+        {
+            sprintf(buf, " 空气very bad");
+            printf("%s\r\n", buf);
+        }
+        y += usLineCap;
+        LCD_DispStr(x, y, buf, &tFont);
+        y -= usLineCap;
+    }
 ```
 
 
