@@ -332,8 +332,8 @@ tFontBtn.Space = 0;
 ## 4.蜂鸣器报警
 
 ```c
-BEEP_Start(freq, 50, 50, 1);		/*蜂鸣器报警*/
+BEEP_Start(freq, 50, 50, 1);        /*蜂鸣器报警*/
 ```
 
-
+参数设置的是pm&gt;300报警，可更改
 
