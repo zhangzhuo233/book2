@@ -6,9 +6,8 @@
 
 ```c
 y += usLineCap;
-        LCD_DispStr(x, y, buf, &tFont);
-        y -= usLineCap;
-
+LCD_DispStr(x, y, buf, &tFont);
+y -= usLineCap;
 ```
 
 
