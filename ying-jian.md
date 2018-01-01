@@ -309,5 +309,25 @@ if(pm <= 75)
     }
 ```
 
+3.设置背景为蓝色及其他
+
+```c
+LCD_ClrScr(CL_BLUE); /* 清屏，背景蓝色 */
+
+/* 设置字体参数 */
+{
+tFont.FontCode = FC_ST_16; /* 字体代码 16点阵 */
+tFont.FrontColor = CL_WHITE; /* 字体颜色 */
+tFont.BackColor = CL_BLUE; /* 文字背景颜色 */
+tFont.Space = 0; /* 文字间距，单位 = 像素 */
+
+/* 按钮字体 */
+tFontBtn.FontCode = FC_ST_16;
+tFontBtn.BackColor = CL_MASK; /* 透明色 */
+tFontBtn.FrontColor = CL_BLACK;
+tFontBtn.Space = 0;
+}
+```
+
 
 
